@@ -195,15 +195,14 @@
   </div>
 
   <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      const productStr = localStorage.getItem("securedCheckoutProduct");
-      if (productStr) {
-        const product = JSON.parse(productStr);
-        document.querySelector("#pay-amount span").textContent = product.price;
-      } else {
-        document.querySelector("#pay-amount span").textContent = "₹0/-";
-      }
-    });
+     window.addEventListener("DOMContentLoaded", () => {
+  const total = localStorage.getItem("checkoutTotal");
+  if (total) {
+    document.querySelector("#pay-amount span").textContent = "₹" + total;
+  } else {
+    document.querySelector("#pay-amount span").textContent = "₹0.00";
+  }
+});
 
     const cardInput = document.getElementById('card-number');
     const cvvInput = document.getElementById('cvv');

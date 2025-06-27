@@ -1205,13 +1205,28 @@
       const btn = document.getElementById("pay-confirm-btn");
       if (btn) {
         btn.addEventListener("click", () => {
-          const selected = document.querySelector('input[name="payment"]:checked');
-          if (selected && selected.value === "card") {
-            window.location.href = "card-payment.html";
-          } else {
-            alert("Please choose Credit Card to proceed.");
-          }
-        });
+  const selected = document.querySelector('input[name="payment"]:checked');
+  if (selected && selected.value === "card") {
+    // Calculate total
+    const totalAmount = products.reduce(
+      (sum, p) =>
+        sum +
+        parseFloat(
+          p.totalPrice?.replace(/[₹$,/-]/g, '') ||
+          p.price?.replace(/[₹$,/-]/g, '') ||
+          "0"
+        ),
+      0
+    );
+
+    localStorage.setItem("checkoutTotal", totalAmount.toFixed(2));
+
+    window.location.href = "card-payment.html";
+  } else {
+    alert("Please choose Credit Card to proceed.");
+  }
+});
+
       }
     }
   </script>
