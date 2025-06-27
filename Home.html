@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GroceryHub - Fresh Groceries Delivered</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #fff;
+      color: #222;
+    }
+
+    .top-bar {
+      background-color: #8BC34A;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 20px;
+      font-size: 13px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .top-bar .left,
+    .top-bar .right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background-color: white;
+      /* border-bottom: 1px solid #eee;*/
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #222;
+      font-size: 16px;
+      padding-bottom: 3px;
+    }
+
+    nav a.active {
+      border-bottom: 2px solid #8BC34A;
+    }
+
+    .icons {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      font-size: 13px;
+      color: #444;
+    }
+
+    .icons i {
+      font-size: 18px;
+      display: block;
+      text-align: center;
+    }
+
+    .icons div {
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+
+      header,
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav,
+      .icons {
+        margin-top: 10px;
+        gap: 15px;
+      }
+    }
+
+    .login-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+    }
+
+    .login-icon .icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .login-icon .text {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal {
+      background-color: #e6f4d8;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .modal .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .modal button {
+      background-color: #8BC34A;
+      border: none;
+      padding: 10px 25px;
+      font-size: 16px;
+      color: white;
+      border-radius: 10px;
+      margin: 15px 0;
+      cursor: pointer;
+    }
+
+    .modal input[type="text"] {
+      padding: 10px;
+      width: calc(100% - 100px);
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
+
+    .modal .input-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .phone-input {
+      background: #8BC34A;
+      color: #222;
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .phone-input input {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #222;
+      margin-left: 10px;
+      width: 100%;
+    }
+
+    .login-modal {
+      background-color: #DFF3C9;
+      text-align: center;
+      padding: 40px 30px;
+    }
+
+    .login-img {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .login-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 10px 0 5px;
+      color: #000;
+    }
+
+    .login-subtitle {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .phone-input.full-width {
+      background: #8BC34A;
+      color: #fff;
+      padding: 14px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 auto 25px;
+      max-width: 100%;
+    }
+
+    .phone-input.full-width input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .login-btn {
+      background: white;
+      color: #8BC34A;
+      font-weight: 600;
+      border-radius: 30px;
+      padding: 14px 0;
+      font-size: 18px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .terms-text {
+      font-size: 11px;
+      color: #333;
+      margin-top: 15px;
+    }
+
+    .continue-btn {
+      width: 100%;
+      background: white;
+      color: #8BC34A;
+      font-weight: bold;
+      font-size: 20px;
+      padding: 14px 0;
+      border-radius: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .continue-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .otp-input {
+      width: 300px;
+      /* Make inputs full width of their container */
+      box-sizing: border-box;
+      /* Includes padding and border in width */
+      padding: 12px 15px;
+      /* Consistent padding */
+      margin-bottom: 15px;
+      /* Space between inputs */
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .fish-card,
+    .dairy-card,
+    .buy-card,
+    .explore-card {
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .fish-card:hover,
+    .dairy-card:hover,
+    .buy-card:hover,
+    .explore-card:hover {
+      transform: scale(1.02);
+    }
+
+    a {
+      text-decoration: none;
+    }
+  </style>
+
+
+</head>
+
+<body>
+  <div class="top-bar">
+    <div class="left">
+      <span><img src="images/Vector V.png"> +91 87642 987687</span>
+      <span><img src="images/Vector 1.png"> +91 87642 987687</span>
+    </div>
+    <div>World Fastest online Shopping Destination</div>
+    <div class="right">
+      <div class="dropdown" onclick="openModal('locationModal')">
+        <span>Current Location <img src="images/Vector.png"></span>
+      </div>
+      <div class="dropdown" onclick="openModal('accountModal')">
+        <span>Account <img src="images/Vector.png"></span>
+      </div>
+      <div class="dropdown login-icon" onclick="openModal('loginModal')">
+        <span class="icon"><img src="images/SVG.png"></span>
+        <span class="text">Login/Logout</span>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="images/Ellipse 1.png" alt="logo" />
+      <strong style="color: #7CB342;">GroceryHub</strong>
+    </div>
+    <nav>
+      <a href="#" class="active">Home</a>
+      <a href="categories.html">Categories</a>
+      <a href="deals.html">Deals</a>
+    </nav>
+    <div class="icons">
+      <div>
+        <img src="images/SEARCH.png"><br>
+        <span style="color:#8BC34A">Search</span>
+      </div>
+
+      <!-- <div>
+        <img src="images/Vector 8.png" class="cart-icon" id="cart-icon"><br>
+        <span class="cart-badge" id="cart-count">0</span>
+        <span style="color:#8BC34A">Cart</span>
+      </div> -->
+
+      <div class="cart-container">
+        <img src="images/Vector 8.png" class="cart-icon" id="cart-icon"><br>
+        <span class="cart-badge" id="cart-count">0</span>
+        <span style="color:#8BC34A">Cart</span>
+      </div>
+      <div>
+        <img src="images/Vector O.png"><br>
+        <span style="color:#8BC34A">Liked</span>
+      </div>
+    </div>
+  </header>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Fresh Groceries Delivered To Your DoorStep</h1>
+      <p>Emphasizing the Store’s Commitment to providing fresh Produce and Product Daily.</p>
+      <button>Shop Now</button>
+    </div>
+    <img style="width:400px" src="images/image 1.png" alt="delivery guy" width="300" />
+  </section>
+  <section class="banner">
+    <img src="images/Link → welcome-image.png" alt="ONE STOP SHOP">
+  </section>
+  <div id="secured-checkup" style="display: none;"></div>
+  <section class="section categories">
+    <div class="section-header">
+      <h2>Grocery & Kitchen</h2>
+      <a href="categories.html" class="see-all-link">See all &gt;</a>
+    </div>
+    <div class="cards">
+      <div class="card"><img src="images/Atta,Rice & Dal.png">
+        <p>Atta, Rice & Dal</p>
+      </div>
+      <div class="card"><img src="images/Group 182 J.png" />
+        <p>Cooking Oil</p>
+      </div>
+      <div class="card"><img src="images/Masala & Spices H.png" />
+        <p>Masala & Spices</p>
+      </div>
+      <div class="card"><img style="background:#eaf9fd;border-radius:10px" src="images/category-image K.png" />
+        <p>Chicken, Fish & Meat</p>
+      </div>
+      <div class="card"><img src="images/Fruits & Vegetables U.png" />
+        <p>Fruits & Vegetables</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>Snacks & Drinks</h2>
+      <a href="categories.html" class="see-all-link">See all &gt;</a>
+    </div>
+    <div class="cards">
+      <div class="card"><img src="images/Biscuits & Cookies.png" />
+        <p>Biscuits & Cookies</p>
+      </div>
+      <div class="card"><img src="images/Breakfast Cereals J.png" />
+        <p>Breakfast Cereals</p>
+      </div>
+      <div class="card"><img src="images/Pasta & Noodles J.png" />
+        <p>Pasta & Noodles</p>
+      </div>
+      <div class="card"><img src="images/Sweets & Chocolates J.png" />
+        <p>Sweets & Chocolates</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Fish and Meat</h2>
+    <div class="cards-container">
+      <div class="fish-card">
+        <a href="product.html?product=premiumChicken">
+          <img src="images/Premium Chicken Whole Skinless 1.png" alt="Premium Chicken Whole Skinless" />
+          <p class="product-name">Premium Chicken Whole Skinless</p>
+          <p class="product-quantity">250 GM</p>
+        </a>
+        <div class="price-container">
+          <p class="price">₹74.75</p>
+          <button class="options-button">4 Options</button>
+        </div>
+      </div>
+      <div class="fish-card">
+        <img src="images/Chicken Boneless Breast Fillet.png" alt="Chicken Boneless Breast Fillet" />
+        <p class="product-name">Chicken Boneless Breast Fillet</p>
+        <p class="product-quantity">250 GM</p>
+        <div class="price-container">
+          <p class="price">₹107.25</p>
+          <button class="options-button">4 Options</button>
+        </div>
+      </div>
+      <div class="fish-card">
+        <a href="product.html?product=goatCurry">
+          <img src="images/Goat Currycut.png" alt="Goat Currycut" />
+          <p class="product-name">Goat Currycut</p>
+          <p class="product-quantity">250 GM</p>
+        </a>
+        <div class="price-container">
+          <p class="price">₹212.25</p>
+          <button class="options-button">4 Options</button>
+        </div>
+      </div>
+      <div class="fish-card">
+        <img src="images/Chicken Liver Cut Pieces U.png" alt="Chicken Liver Cut Pieces" />
+        <p class="product-name">Chicken Liver Cut Pieces</p>
+        <p class="product-quantity">250 GM</p>
+        <div class="price-container">
+          <p class="price">₹249.75</p>
+          <button class="options-button">4 Options</button>
+        </div>
+      </div>
+      <div class="fish-card">
+        <img src="images/Premium Chicken Whole Skinless 1.png" alt="Chicken Dressed With Skin Whole" />
+        <p class="product-name">Chicken Dressed With Skin Whole</p>
+        <p class="product-quantity">250 GM</p>
+        <div class="price-container">
+          <p class="price">₹59.75</p>
+          <button class="options-button">4 Options</button>
+        </div>
+      </div>
+      <div class="fish-card">
+        <img src="images/Premium Chicken Drumstick Skinless U.png" alt="Premium Chicken Drumstick Skinless" />
+        <p class="product-name">Premium Chicken Drumstick Skinless</p>
+        <p class="product-quantity">250 GM</p>
+        <div class="price-container">
+          <p class="price">₹107.25</p>
+          <button class="options-button">4 Options</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Dairy, Bread & Eggs</h2>
+    <div class="cards-container">
+      <div class="dairy-card">
+        <img src="imagesbg/Jersey_Badam_Flavoured_Milk_190ML-removebg-preview.png" alt="Jersey Badam Flavoured Milk" />
+        <p class="product-name">Jersey Badam Flavoured Milk</p>
+        <p class="product-quantity">190 ML</p>
+        <div class="price-container">
+          <p class="price">₹40</p>
+          <button class="add-button">+</button>
+        </div>
+      </div>
+      <div class="dairy-card">
+        <a href="product.html?product=freshMilk">
+          <span class="discount-badge">3% OFF</span>
+          <img src="imagesbg/Nandini_Goodlife_Milk_500GM-removebg-preview.png" alt="Nandini Goodlife Milk" />
+          <p class="product-name">Nandini Goodlife Milk</p>
+          <p class="product-quantity">500GM</p>
+        </a>
+        <div class="price-container">
+          <p class="old-price"><del>₹30</del></p>
+          <p class="price">₹29</p>
+          <button class="add-button"
+            data-product='{"name":"Nandini Goodlife Milk","quantity":"500 GM","price":29}'>+</button>
+        </div>
+      </div>
+      <div class="dairy-card">
+        <img src="imagesbg/Nandini_Goodlife_Milk_180ML-removebg-preview.png" alt="Nandini Goodlife Milk" />
+        <p class="product-name">Nandini Goodlife Milk</p>
+        <p class="product-quantity">180ML</p>
+        <div class="price-container">
+          <p class="price">₹14</p>
+          <button class="add-button">+</button>
+        </div>
+      </div>
+      <div class="dairy-card">
+        <img src="imagesbg/Nandini_Slim_Uht_Milk_1L-removebg-preview.png" alt="Nandini Goodlife Milk/">
+        <p class=" product-name">Nandini Slim Uht Milk 1L</p>
+        <p class="product-quantity">1 LTR</p>
+        <div class="price-container">
+          <p class="price">₹71</p>
+          <button class="add-button">+</button>
+        </div>
+      </div>
+      <a href="product.html?product=milkyMistPaneer" class="dairy-card">
+        <img src="imagesbg/Milky_Mist_Paneer-P-removebg-preview.png" alt="Milky Mist Paneer" />
+        <p class="product-name">Milky Mist Paneer</p>
+        <p class="product-quantity">200 GM</p>
+        <div class="price-container">
+          <p class="price">₹128</p>
+          <button class="options-button">2 Options</button>
+
+        </div>
+      </a>
+      <div class="dairy-card">
+        <img src="imagesbg/Heritage_Premium_Badam_Milk_With_Badam_Bits_180ML-removebg-preview.png"
+          alt="Heritage Premium Badam Milk With Bada..." />
+        <p class="product-name">Heritage Premium Badam Milk With Bada...</p>
+        <p class="product-quantity">180 ML</p>
+        <div class="price-container">
+          <p class="price">₹35</p>
+          <button class="add-button">+</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Buy More, Save More</h2>
+    <div class="cards-container">
+      <div class="buy-card">
+        <a href="product.html?product=sparUradDal">
+          <img src="imagesbg/SPAR_Select_Urad_Dal_500G-removebg-preview.png" alt="SPAR Select Urad Dal 500G" />
+          <p class="product-name">SPAR Select Urad Dal 500G</p>
+          <p class="product-quantity">500 GM</p>
+        </a>
+        <div class="price-container">
+          <p class="price">₹110</p>
+          <button class="add-button"
+            data-product='{"name":"SPAR Select Urad Dal 500G","quantity":"500 GM","price":110}'>+</button>
+        </div>
+      </div>
+      <div class="buy-card">
+        <a href="product.html?product=bhagyalakshmiFriedGram">
+          <img src="imagesbg/Bhagyalakshmi_Fried_Gram-P-removebg-preview.png" alt="Fried Gram Dal" />
+          <p class="product-name">Bhagyalakshmi Fried Gram</p>
+          <p class="product-quantity">250 GM</p>
+        </a>
+        <div class="price-container">
+          <p class="price">₹40</p>
+          <button class="options-button">2 Options</button>
+        </div>
+      </div>
+      <div class="buy-card">
+        <a href="product.html?product=popularMoongDal">
+          <img src="images/Screenshot_2025-03-31_150052-removebg-preview 1.png" alt="Popular Moong Dal" />
+          <p class="product-name">Popular Moong Dal 1KG</p>
+          <p class="product-quantity">1 KG</p>
+        </a>
+        <div class="price-container">
+          <p class="old-price"><del>₹190</del></p>
+          <p class="price">₹159</p>
+          <button class="add-button"
+            data-product='{"name":"Popular Moong Dal 2KG","quantity":"2 KG","price":258}'>+</button>
+        </div>
+      </div>
+      <div class="buy-card">
+        <img src="images/Screenshot_2025-03-31_150157-removebg-preview 1.png" alt="SPAR Select Spotted Double Beans" />
+        <p class="product-name">SPAR Select Spotted Double Beans</p>
+        <p class="product-quantity">200 GM</p>
+        <div class="price-container">
+          <p class="price">₹150</p>
+          <button class="options-button">2 Options</button>
+
+        </div>
+      </div>
+      <div class="buy-card">
+        <img src="imagesbg/Loose_Bestprice_Fried_Gram-removebg-preview.png" alt="Loose Bestprice Fried Gram" />
+        <p class="product-name">Loose Bestprice Fried Gram</p>
+        <p class="product-quantity">250 GM</p>
+        <div class="price-container">
+          <p class="price">₹42.25</p>
+          <button class="options-button">3 Options</button>
+        </div>
+      </div>
+
+
+      <div class="buy-card">
+
+        <img src="imagesbg/Popular_Moong_Dal_2KG-removebg-preview.png" alt="Popular Moong Dal 2KG" />
+        <p class="product-name">Popular Moong Dal 2KG</p>
+        <p class="product-quantity">2 KG</p>
+
+        <div class="price-container">
+          <p class="old-price"><del>₹299</del></p>
+          <p class="price">₹258</p>
+          <button class="add-button">+</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="banner">
+    <img src="images/seasonal fruit banner.PNG">
+  </section>
+  <section class="section">
+    <h2>Explore Categories</h2>
+    <div class="cards-container">
+      <div class="explore-card">
+        <a href="product.html?product=royalGalaApple">
+          <img src="images/Apple Royalgala.png" alt="Apple Royalgala" />
+          <p class="product-name">Apple Royalgala 500 GM</p>
+          <p class="product-quantity">500 GM</p>
+        </a>
+        <div class="price-container">
+          <p class="price">₹124.5</p>
+          <button class="add-button"
+            data-product='{"name":"Apple Royalgala 500 GM","quantity":"500 GM","price":124.5}'>+</button>
+        </div>
+      </div>
+      <div class="explore-card">
+        <a href="product.html?product=appleShimla">
+          <img src="images/Apple Shimla.png" alt="Apple Shimla" />
+          <p class="product-name">Apple Shimla</p>
+          <p class="product-quantity">500 GM</p>
+        </a>
+        <div class="price-container">
+          <p class="price">₹114.5</p>
+          <button class="add-button" data-product='{"name":"Apple Shimla","quantity":"500 GM","price":114.5}'>+</button>
+        </div>
+      </div>
+      <div class="explore-card">
+        <a href="product.html?product=bananaRobusta">
+          <img src="images/Banana Robusta.png" alt="Banana Robusta" />
+          <p class="product-name">Banana Robusta</p>
+          <p class="product-quantity">500 GM</p>
+        </a>
+        <div class="price-container">
+          <p class="price">₹27.5</p>
+          <button class="add-button"
+            data-product='{"name":"Banana Robusta","quantity":"500 GM","price":27.5}'>+</button>
+        </div>
+      </div>
+      <div class="explore-card">
+        <a href="product.html?product=royalGalaApple">
+          <img src="images/Banana Yelakki.png" alt="Banana Yelakki">
+          <p class="product-name">Banana Yelakki</p>
+          <p class="product-quantity">500 GM</p>
+        </a>
+        <div class="price-container">
+          <p class="price">₹62.5</p>
+          <button class="add-button" data-product='{"name":Banana Yelakki","quantity":"500 GM","price":62.5}'>+</button>
+
+        </div>
+      </div>
+      <div class="explore-card">
+        <a href="product.html?product=royalGalaApple">
+          <img src="images/Orange Nagpur.png" alt="Orange Nagpur" />
+          <p class="product-name">Orange Nagpur</p>
+          <p class="product-quantity">500 GM</p>
+        </a>
+        <div class="price-container">
+          <p class="price">₹59.5</p>
+          <button class="add-button" data-product='{"name":"Orange Nagpur","quantity":"500 GM","price":59.5}'>+</button>
+        </div>
+      </div>
+      <div class="explore-card">
+        <a href="product.html?product=royalGalaApple">
+          <img src="images/Guava Prepack.png" alt="Guava Prepack">
+          <p class="product-name">Guava Prepack</p>
+          <p class="product-quantity">300 GM</p>
+        </a>
+        <div class="price-container">
+          <p class="price">₹38.7</p>
+          <button class="add-button" data-product='{"name":"Guava Prepack","quantity":"300 GM","price":38.7}'>+</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <h2 class="testimonial-heading">What Our Beloved Customer Say About Us</h2>
+    <div class="testimonial-cards">
+      <div class="testimonial-card">
+        <div class="quote-icon">
+          <img src="images/Symbol.png">
+        </div>
+        <div class="stars">
+          <img src="images/Group 250.png">
+        </div>
+        <p>"I've been shopping at this store for years and I'm always impressed with the quality of their produce and
+          meats. The staff is friendly and helpful too!"</p>
+        <div class="customer">
+          <img src="images/G.png" alt="Astha Kohli">
+          <span><strong>Astha Kohli</strong></span>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-icon">
+          <img src="images/Symbol.png">
+        </div>
+        <div class="stars">
+          <img src="images/Group 176.png">
+        </div>
+        <p>"I love the variety of products they carry, especially the organic and gluten-free options. The prices are
+          reasonable too!"</p>
+        <div class="customer">
+          <img src="images/Ellipse 2 H.png" alt="Neeraj Singh">
+          <span><strong>Neeraj Singh</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <div class="logo-heading">
+          <img src="images/Ellipse 1.png" alt="Logo">
+          <h2>GroceryHub</h2>
+        </div>
+        <p>GroceryHub brings its customers low prices every day. We offer a wide choice covering fresh & packaged food,
+          grains, pulses, dairy, frozen, plastics, utensils, crockery, travel, stationery, & more. SPAR has 13,900
+          stores in 48 countries. In India, SPAR has 23 stores across 8 cities.</p>
+        <p class="email"><img src="images/Mail.png" alt=""> business@groceryhub.com</p>
+        <p class="web"><img src="images/Internet.png" alt=""> www.Grocery.in</p>
+      </div>
+
+      <div class="footer-columns">
+        <div>
+          <h4>Our Services</h4>
+          <ul>
+            <li>Your Account</li>
+            <li>FAQS</li>
+            <li>Store List</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Let Us Help You</h4>
+          <ul>
+            <li>Help & Support</li>
+            <li>Share Feedback</li>
+            <li>Call Us</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li>About Us</li>
+            <li>Terms</li>
+            <li>Privacy Policy</li>
+            <li>Return & Refund Policy</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-social">
+        <h4>Connect With Us</h4>
+        <div class="social-icons">
+          <img src="images/Item.png" alt="Facebook">
+          <img src="images/x.png" alt="X">
+          <img src="images/Item P.png" alt="Instagram">
+          <img src="images/Item 9.png" alt="LinkedIn">
+        </div>
+        <div class="store-icons">
+          <img src="images/Link → app-store-image.png" alt="App Store">
+          <img src="images/Link → paly-store-image.png" alt="Play Store">
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      GroceryHub India © All rights Reserved
+    </div>
+  </footer>
+
+
+  <!-- My Cart Popup -->
+  <div id="cart-popup" class="cart-popup">
+    <div class="cart-header">
+      <h1>My Cart</h1>
+      <h2><span id="item-count">0</span> Items</h2>
+      <span id="close-cart" class="close-btn">X</span>
+    </div>
+
+    <div class="cart-body">
+      <div id="cart-items"></div>
+
+      <div class="bill-section">
+        <h4>Bill Details</h4>
+        <div class="bill-line">
+          <span>Total qty (<span id="qty-count">0</span>)</span><span id="item-total">₹0</span>
+        </div>
+        <div class="bill-line">
+          <span>Handling fee</span><span>₹10</span>
+        </div>
+        <div class="bill-line total">
+          <span>To Pay</span><span id="total-pay">₹10/-</span>
+        </div>
+      </div>
+
+      <div class="cart-footer">
+        <button class="buy-btn">Buy Now</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Location Modal -->
+  <div class="modal-overlay" id="locationModal">
+    <div class="modal">
+      <span class="close-btn" onclick="closeModal('locationModal')">&times;</span>
+      <h2>Choose your Location</h2>
+      <p>Select a delivery location to see<br>product availability and delivery options</p>
+      <button>Change Your Address</button>
+      <hr style="margin: 20px 0">
+      <p style="text-align: center;">Or enter an Indian pincode</p>
+      <div class="input-group">
+        <input type="text" placeholder="xxxxx" />
+        <button>Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account Modal -->
+  <div class="modal-overlay" id="accountModal">
+    <div class="modal">
+      <span class="close-btn" onclick="closeModal('accountModal')">&times;</span>
+      <button>Sign Out</button>
+      <p><strong>New Customer ? <a href="#" onclick="openModal('signupModal')">Start Here</a></strong></p>
+
+      <p><strong>Your Account</strong></p>
+      <ul>
+        <li>Your Account</li>
+        <li>Your Orders</li>
+        <li>Your Wish List</li>
+        <li>Your Subscribe & Save Items</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Sign-Up Modal -->
+  <div class="modal-overlay" id="signupModal">
+    <div class="modal login-modal">
+      <span class="close-btn" onclick="closeModal('signupModal')">&times;</span>
+
+      <h2 class="login-title">Create Account</h2>
+      <p class="login-subtitle">Sign up to start shopping with GroceryHub</p>
+
+      <input style="width:300px;margin-left:5px" type="text" id="signupName" placeholder="Full Name" class="otp-input"
+        autocomplete="off">
+      <input type="email" id="signupEmail" placeholder="Email Address" class="otp-input" autocomplete="off">
+      <input style="width:300px;margin-left:5px" type="text" id="signupPhone" placeholder="Phone Number"
+        class="otp-input" maxlength="10" autocomplete="off">
+      <input type="password" id="signupPassword" placeholder="Password" class="otp-input" autocomplete="new-password">
+
+      <button class="continue-btn login-btn" onclick="handleSignup()">Sign Up</button>
+      <p style="margin-top: 15px; text-align: center;">
+        Already have an account?
+        <a href="#" onclick="toggleModals('signupModal', 'loginModal'); return false;">Login</a>
+      </p>
+      <p class="terms-text">By registering, you agree to our Terms & Privacy Policy.</p>
+    </div>
+  </div>
+
+
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal login-modal">
+      <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
+
+      <img src="images/Screenshot_2025-03-29_160452-removebg-preview 1.png" alt="Groceries" class="login-img">
+
+      <h2 class="login-title">Login</h2>
+      <p class="login-subtitle">Enter Your Phone Number to proceed</p>
+
+      <div class="phone-input full-width">
+        📞 <input type="text" id="phoneInput" maxlength="10" placeholder="Enter 10 digit phone number">
+      </div>
+
+      <div id="otpSection" style="display: none; margin-top: 15px;">
+        <p class="login-subtitle">Enter OTP sent to your phone</p>
+        <input type="text" id="otpInput" maxlength="6" placeholder="Enter 6-digit OTP" class="otp-input">
+      </div>
+
+      <button class="continue-btn login-btn" onclick="handleContinue()">Continue</button>
+      <p style="margin-top: 15px; text-align: center;">
+        New user?
+        <a href="#" onclick="toggleModals('loginModal', 'signupModal'); return false;">Sign Up</a>
+      </p>
+
+      <p class="terms-text">By clicking, I accept Terms & Condition.</p>
+    </div>
+  </div>
+
+  <!-- /* update count in cart when add button is clicked in product card*/ also when we click add to cart button in product description page-->
+  <script>
+
+    function updateCartCount() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cart-count').textContent = totalQty;
+    }
+    // Handle "+" button click
+    function setupAddButtons() {
+      const addButtons = document.querySelectorAll('.add-button');
+
+      addButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault(); // Prevent navigating to product page when clicking the button inside <a>
+
+          let currentCount = parseInt(sessionStorage.getItem('cartCount')) || 0;
+          currentCount += 1;
+
+          sessionStorage.setItem('cartCount', currentCount);
+          updateCartCount();
+        });
+      });
+    }
+
+    // On page load
+    window.addEventListener('load', () => {
+      updateCartCount();
+      setupAddButtons();
+    });
+
+    <!-- window.addEventListener('load', updateCartCount); -->
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const cartBuyNowBtn = document.querySelector(".buy-btn");
+
+      if (cartBuyNowBtn) {
+        cartBuyNowBtn.addEventListener("click", () => {
+          const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+          if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+          }
+
+          const securedProducts = cart.map(cartItem => {
+            const productKey = cartItem.key;
+            const fullProduct = products[productKey];
+
+            if (!fullProduct) return null;
+
+            return {
+              ...fullProduct,
+              quantity: cartItem.quantity,
+              totalPrice: "₹" + (cartItem.quantity * cartItem.price).toFixed(2)
+            };
+          }).filter(p => p !== null);
+
+          localStorage.setItem("securedCheckoutProduct", JSON.stringify(securedProducts));
+          window.location.href = "home.html?secureCheckout=true";
+        });
+      }
+    });
+  </script>
+
+  <script src="script.js"></script>
+
+  <script>
+
+    //otp for login modal
+    let generatedOTP = "";
+
+    function openModal(id) {
+      document.getElementById(id).style.display = "flex";
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+      document.getElementById("phoneInput").value = "";
+      document.getElementById("otpInput").value = "";
+      document.getElementById("otpSection").style.display = "none";
+      document.querySelector('.login-btn').textContent = "Continue";
+      generatedOTP = "";
+      document.getElementById(id).style.display = "none";
+
+      // Clear sign-up inputs
+      if (id === "signupModal") {
+        document.getElementById("signupName").value = "";
+        document.getElementById("signupEmail").value = "";
+        document.getElementById("signupPhone").value = "";
+        document.getElementById("signupPassword").value = "";
+      }
+    }
+
+    function handleContinue() {
+      const phone = document.getElementById("phoneInput").value.trim();
+      const otpSection = document.getElementById("otpSection");
+      const continueBtn = document.querySelector('.login-btn');
+
+      if (continueBtn.textContent === "Continue") {
+        if (phone.length !== 10 || isNaN(phone)) {
+          alert("Please enter a valid 10-digit phone number.");
+          return;
+        }
+
+        // Generate fake OTP
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+        alert("Your OTP is: " + generatedOTP); // Mocking SMS
+
+        otpSection.style.display = "block";
+        continueBtn.textContent = "Verify OTP";
+      } else {
+        // Verify OTP
+        const enteredOTP = document.getElementById("otpInput").value.trim();
+
+        if (enteredOTP === generatedOTP) {
+          alert("OTP Verified! You are logged in.");
+          closeModal("loginModal");
+        } else {
+          alert("Invalid OTP. Please try again.");
+        }
+      }
+    }
+
+
+  </script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("secureCheckout") === "true") {
+        showSecuredCheckupPage();
+      }
+    });
+
+    function showSecuredCheckupPage() {
+      const productStr = localStorage.getItem("securedCheckoutProduct");
+      if (!productStr) return;
+
+      const products = JSON.parse(productStr);
+      if (!Array.isArray(products)) {
+        products = [products];
+      }
+      // Hide homepage content
+      document.querySelectorAll("section, .some-homepage-class").forEach(el => {
+        el.style.display = "none";
+      });
+
+      let html = `
+    <div style="background:#e1f2c5; padding: 20px; min-height:100vh;">
+      <h1 style="color:#4a7d20; font-weight:bold;">Secured CheckUp</h1>
+      <div style="display:flex; flex-direction: column; gap: 30px; margin-top:30px;">
+  `;
+
+      products.forEach(product => {
+        html += `
+      <div style="display:flex; flex-wrap:wrap; gap:30px; border:1px solid #ccc; border-radius:10px; padding:20px; background:#fff;">
+        <div style="flex:1; min-width:300px;">
+          <img src="${product.imageSrc}" alt="${product.altText}" style="max-width:300px; border-radius:10px;">
+          <h2>${product.productNameLine}</h2>
+          <p>${product.description}</p>
+          <h3>Key Features</h3>
+          <ul>
+            ${product.keyFeatures.map(f => `<li>${f}</li>`).join('')}
+          </ul>
+          <h3>Product Details</h3>
+          <ul>
+            ${product.productDetails.map(d => `<li>${d}</li>`).join('')}
+          </ul>
+          <p><strong>Quality No:</strong> ${product.qualityNo} &nbsp;&nbsp; ❤️ <strong>In Stock:</strong> ${product.stockCount}</p>
+          <p>Price per unit: <strong>${product.price}</strong></p>
+          <p>Quantity: <strong>${product.quantity}</strong></p>
+          <p>Total Price: <strong>${product.totalPrice}</strong></p>
+        </div>
+      </div>
+    `;
+      });
+
+      html += `
+  </div>
+
+  <div style="
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+  ">
+    <div style="
+      flex: 1;
+      min-width: 250px;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    ">
+      <h3 style="margin-bottom: 10px;">Total Cost</h3>
+      <p style="margin: 5px 0; color: #333;">Session free for 30 minutes</p>
+      <h2 style="color: #4a7d20; margin-top: 10px; margin-bottom: 5px;">
+        ${products.reduce((sum, p) => sum + parseFloat(p.totalPrice.replace(/[₹$,/-]/g, '')), 0).toFixed(2)} /-
+      </h2>
+      <p style="margin-top: 20px;">
+        <button style="
+          background: #8BC34A;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 30px;
+          font-weight: bold;
+          cursor: pointer;
+        ">
+          Use Promo code
+        </button>
+      </p>
+    </div>
+
+    <div style="
+      flex: 1;
+      min-width: 250px;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    ">
+      <h3 style="margin-bottom: 15px;">PAYMENT OPTIONS</h3>
+      <div style="margin-bottom: 15px;">
+        <label style="display:flex; align-items: center; gap:10px; margin-bottom:10px;">
+          <input type="radio" name="payment" value="paypal" />
+          <span>Paypal</span>
+          <img src="images/Screenshot_2024-11-27_110140-removebg-preview 2.png" style="height: 20px;" />
+        </label>
+        <label style="display:flex; align-items: center; gap:10px;">
+          <input type="radio" name="payment" value="card" checked />
+          <span>Credit card</span>
+          <img src="images/Screenshot_2024-11-27_110227-removebg-preview 2.png" style="height: 20px;" />
+          <img src="images/Screenshot_2024-11-27_110406-removebg-preview 2.png" style="height: 20px;" />
+          <img src="images/Screenshot_2024-11-27_110552-removebg-preview 2.png" style="height: 20px;" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:40px;">
+    <button id="pay-confirm-btn" style="
+      background: #8bc34a;
+      color: white;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    ">
+      Pay & Confirm
+    </button>
+  </div>
+</div>
+`;
+
+
+      const container = document.getElementById("secured-checkup");
+      container.innerHTML = html;
+      container.style.display = "block";
+
+      const btn = document.getElementById("pay-confirm-btn");
+      if (btn) {
+        btn.addEventListener("click", () => {
+          const selected = document.querySelector('input[name="payment"]:checked');
+          if (selected && selected.value === "card") {
+            window.location.href = "card-payment.html";
+          } else {
+            alert("Please choose Credit Card to proceed.");
+          }
+        });
+      }
+    }
+  </script>
+</body>
+
+</html>

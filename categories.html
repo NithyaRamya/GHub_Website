@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GroceryHub - Fresh Groceries Delivered</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #fff;
+      color: #222;
+    }
+
+    .top-bar {
+      background-color: #8BC34A;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 20px;
+      font-size: 13px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .top-bar .left,
+    .top-bar .right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background-color: white;
+      /* border-bottom: 1px solid #eee;*/
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #222;
+      font-size: 16px;
+      padding-bottom: 3px;
+    }
+
+    nav a.active {
+      border-bottom: 2px solid #8BC34A;
+    }
+
+    .icons {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      font-size: 13px;
+      color: #444;
+    }
+
+    .icons i {
+      font-size: 18px;
+      display: block;
+      text-align: center;
+    }
+
+    .icons div {
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+
+      header,
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav,
+      .icons {
+        margin-top: 10px;
+        gap: 15px;
+      }
+    }
+
+    .login-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+    }
+
+    .login-icon .icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .login-icon .text {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal {
+      background-color: #e6f4d8;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .modal .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .modal button {
+      background-color: #8BC34A;
+      border: none;
+      padding: 10px 25px;
+      font-size: 16px;
+      color: white;
+      border-radius: 10px;
+      margin: 15px 0;
+      cursor: pointer;
+    }
+
+    .modal input[type="text"] {
+      padding: 10px;
+      width: calc(100% - 100px);
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
+
+    .modal .input-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .phone-input {
+      background: #8BC34A;
+      color: #222;
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .phone-input input {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #222;
+      margin-left: 10px;
+      width: 100%;
+    }
+
+    .login-modal {
+      background-color: #DFF3C9;
+      text-align: center;
+      padding: 40px 30px;
+    }
+
+    .login-img {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .login-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 10px 0 5px;
+      color: #000;
+    }
+
+    .login-subtitle {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .phone-input.full-width {
+      background: #8BC34A;
+      color: #fff;
+      padding: 14px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 auto 25px;
+      max-width: 100%;
+    }
+
+    .phone-input.full-width input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .login-btn {
+      background: white;
+      color: #8BC34A;
+      font-weight: 600;
+      border-radius: 30px;
+      padding: 14px 0;
+      font-size: 18px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .terms-text {
+      font-size: 11px;
+      color: #333;
+      margin-top: 15px;
+    }
+
+    .continue-btn {
+      width: 100%;
+      background: white;
+      color: #8BC34A;
+      font-weight: bold;
+      font-size: 20px;
+      padding: 14px 0;
+      border-radius: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .continue-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .otp-input {
+      width: 300px;
+      /* Make inputs full width of their container */
+      box-sizing: border-box;
+      /* Includes padding and border in width */
+      padding: 12px 15px;
+      /* Consistent padding */
+      margin-bottom: 15px;
+      /* Space between inputs */
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top-bar">
+    <div class="left">
+      <span><img src="images/Vector V.png"> +91 87642 987687</span>
+      <span><img src="images/Vector 1.png"> +91 87642 987687</span>
+    </div>
+    <div>World Fastest online Shopping Destination</div>
+    <div class="right">
+      <div class="dropdown" onclick="openModal('locationModal')">
+        <span>Current Location <img src="images/Vector.png"></span>
+      </div>
+      <div class="dropdown" onclick="openModal('accountModal')">
+        <span>Account <img src="images/Vector.png"></span>
+      </div>
+      <div class="dropdown login-icon" onclick="openModal('loginModal')">
+        <span class="icon"><img src="images/SVG.png"></span>
+        <span class="text">Login/Logout</span>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="images/Ellipse 1.png" alt="logo" />
+      <strong style="color: #7CB342;">GroceryHub</strong>
+    </div>
+    <nav>
+      <a href="Home.html">Home</a>
+      <a href="#" class="active">Categories</a>
+      <a href="deals.html">Deals</a>
+    </nav>
+    <div class="icons">
+      <div>
+        <img src="images/SEARCH.png"><br>
+        <span style="color:#8BC34A">Search</span>
+      </div>
+      <div class="cart-container">
+        <img src="images/Vector 8.png" class="cart-icon" id="cart-icon"><br>
+        <span class="cart-badge" id="cart-count">0</span>
+        <span style="color:#8BC34A">Cart</span>
+      </div>
+      <div>
+        <div>
+          <img src="images/Vector O.png"><br>
+          <span style="color:#8BC34A">Liked</span>
+        </div>
+      </div>
+  </header>
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <div class="nav-item" onclick="scrollToSection('grocery')">
+      <img src="images/category-image.png" alt="grocery">
+      <span>Grocery</span>
+    </div>
+    <div class="nav-item" onclick="scrollToSection('fruits')">
+      <img src="images/category-image J.png" alt="Fruits & Vegetables">
+      <span>Fruits & Vegetables</span>
+    </div>
+    <div class="nav-item" onclick="scrollToSection('meat')">
+      <img src="images/category-image K.png" alt="Fish & Meat">
+      <span>Fish & Meat</span>
+    </div>
+    <div class="nav-item" onclick="scrollToSection('packaged')">
+      <img src="images/J.png" alt="Packaged Food">
+      <span>Packaged Food</span>
+    </div>
+    <div class="nav-item" onclick="scrollToSection('dairy')">
+      <img src="images/category-image Q.png" alt="Dairy & Beverages">
+      <span>Dairy & Beverages</span>
+    </div>
+  </div>
+
+  <!-- /*Page Sections*/ -->
+  <section class="cat-sec" id="grocery">
+    <div class="category-header">
+      <img src="images/category-image.png" alt="grocery">
+      <h2>Grocery</h2>
+    </div>
+    <p>
+    <div class="category-cards">
+      <div class="category-card"><img src="images/Group 251 J.png">
+        <p>Rice & Rice Products</p>
+      </div>
+      <div class="category-card"><img src="images/Group 252.png" />
+        <p>Cooking Oil</p>
+      </div>
+      <div class="category-card"><img src="images/Group 253 N.png" />
+        <p>Ghee & Vanaspati</p>
+      </div>
+      <div class="category-card"><img src="images/Group 254.png" />
+        <p>Salt / Sugar / Jaggery</p>
+      </div>
+      <div class="category-card"><img src="images/Group 255 J.png" />
+        <p>Flours</p>
+      </div>
+      <div class="category-card"><img src="images/Group 256.png" />
+        <p>Masala & Spices</p>
+      </div>
+    </div>
+    </p>
+  </section>
+
+  <section class="cat-sec" id="fruits">
+    <div class="category-header">
+      <img src="images/category-image J.png" alt="Fruits & Vegetables">
+      <h2>Fruits & Vegetables</h2>
+    </div>
+    <p>
+    <div class="category-cards">
+      <div class="category-card"><img src="images/Group 251 J.png">
+        <p>Rice & Rice Products</p>
+      </div>
+      <div class="category-card"><img src="images/Group 252.png" />
+        <p>Cooking Oil</p>
+      </div>
+      <div class="category-card"><img src="images/Group 253 N.png" />
+        <p>Ghee & Vanaspati</p>
+      </div>
+      <div class="category-card"><img src="images/Group 254.png" />
+        <p>Salt / Sugar / Jaggery</p>
+      </div>
+      <div class="category-card"><img src="images/Group 255 J.png" />
+        <p>Flours</p>
+      </div>
+      <div class="category-card"><img src="images/Group 256.png" />
+        <p>Masala & Spices</p>
+      </div>
+    </div>
+    </p>
+  </section>
+
+  <section class="cat-sec" id="meat">
+    <div class="category-header">
+      <img src="images/category-image K.png" alt="Fish & Meat">
+      <h2>Fish & Meat</h2>
+    </div>
+
+    <p>
+    <div class="category-cards">
+      <div class="category-card"><img src="images/Group 259 J.png" />
+        <p>Chicken Whole & Cuts</p>
+      </div>
+      <div class="category-card"><img src="images/Group 260.png" />
+        <p>Meat</p>
+      </div>
+      <div class="category-card"><img src="images/Group 261.png" />
+        <p>Fish & Sea Food</p>
+      </div>
+      <div class="category-card"><img src="images/Group 262.png" />
+        <p>Delicatessen</p>
+      </div>
+    </div>
+    </p>
+  </section>
+
+  <section class="cat-sec" id="packaged">
+    <div class="category-header">
+      <img src="images/J.png" alt="Packaged Food">
+      <h2>Packaged Food</h2>
+    </div>
+    <p>
+    <div class="category-cards">
+      <div class="category-card">
+        <img src="images/Group 263 J.png" />
+        <p>Biscuit & Cookies</p>
+      </div>
+      <div class="category-card"><img src="images/Group 264 I.png" />
+        <p>Breakfast Cereals</p>
+      </div>
+      <div class="category-card"><img src="images/Group 265K.png" />
+        <p>Chocolates & Candies</p>
+      </div>
+      <div class="category-card"><img src="images/Group 266.png" />
+        <p>Ketchup & Sauces</p>
+      </div>
+    </div>
+    </p>
+  </section>
+
+  <section class="cat-sec" id="dairy">
+    <div class="category-header">
+      <img src="images/category-image Q.png" alt="Dairy & Beverages">
+      <h2>Dairy & Beverages</h2>
+    </div>
+    <p>
+    <div class="category-cards">
+      <div class="category-card"><img src="images/Group 268.png" />
+        <p>Dairy</p>
+      </div>
+      <div class="category-card"><img src="images/Group 269.png" />
+        <p>Beverages</p>
+      </div>
+      <div class="category-card"><img src="images/Group 270.png" />
+        <p>Poultry</p>
+      </div>
+      <div class="category-card"><img src="images/Group 271.png" />
+        <p>Breads</p>
+      </div>
+    </div>
+    </p>
+  </section>
+
+
+  <!--   
+  <section class="section categories">
+    <div class="category-header">
+      <img src="images/category-image.png" alt="grocery">
+      <h2>Grocery</h2>
+    </div>
+    <div class="category-cards">
+      <div class="category-card"><img src="images/Group 251 J.png">
+        <p>Rice & Rice Products</p>
+      </div>
+      <div class="category-card"><img src="images/Group 252.png" />
+        <p>Cooking Oil</p>
+      </div>
+      <div class="category-card"><img src="images/Group 253 N.png" />
+        <p>Ghee & Vanaspati</p>
+      </div>
+      <div class="category-card"><img  src="images/Group 254.png" />
+        <p>Salt / Sugar / Jaggery</p>
+      </div>
+       <div class="category-card"><img src="images/Group 255 J.png" />
+        <p>Flours</p>
+      </div>
+      <div class="category-card"><img src="images/Group 256.png" />
+        <p>Masala & Spices</p>
+      </div>
+    </div>
+  </section> -->
+
+
+
+
+
+
+
+  <!-- My Cart Popup -->
+  <div id="cart-popup" class="cart-popup">
+    <div class="cart-header">
+      <h1>My Cart</h1>
+      <h2><span id="item-count">0</span> Items</h2>
+      <span id="close-cart" class="close-btn">X</span>
+    </div>
+
+    <div class="cart-body">
+      <div id="cart-items"></div>
+
+      <div class="bill-section">
+        <h4>Bill Details</h4>
+        <div class="bill-line">
+          <span>Total qty (<span id="qty-count">0</span>)</span><span id="item-total">₹0</span>
+        </div>
+        <div class="bill-line">
+          <span>Handling fee</span><span>₹10</span>
+        </div>
+        <div class="bill-line total">
+          <span>To Pay</span><span id="total-pay">₹10/-</span>
+        </div>
+      </div>
+
+      <div class="cart-footer">
+        <button class="buy-btn">Buy Now</button>
+      </div>
+    </div>
+  </div>
+  <!-- Location Modal -->
+  <div class="modal-overlay" id="locationModal">
+    <div class="modal">
+      <span class="close-btn" onclick="closeModal('locationModal')">&times;</span>
+      <h2>Choose your Location</h2>
+      <p>Select a delivery location to see<br>product availability and delivery options</p>
+      <button>Change Your Address</button>
+      <hr style="margin: 20px 0">
+      <p style="text-align: center;">Or enter an Indian pincode</p>
+      <div class="input-group">
+        <input type="text" placeholder="xxxxx" />
+        <button>Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account Modal -->
+  <div class="modal-overlay" id="accountModal">
+    <div class="modal">
+      <span class="close-btn" onclick="closeModal('accountModal')">&times;</span>
+      <button>Sign Out</button>
+      <p><strong>New Customer ? <a href="#" onclick="openModal('signupModal')">Start Here</a></strong></p>
+
+      <p><strong>Your Account</strong></p>
+      <ul>
+        <li>Your Account</li>
+        <li>Your Orders</li>
+        <li>Your Wish List</li>
+        <li>Your Subscribe & Save Items</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Sign-Up Modal -->
+  <div class="modal-overlay" id="signupModal">
+    <div class="modal login-modal">
+      <span class="close-btn" onclick="closeModal('signupModal')">&times;</span>
+
+      <h2 class="login-title">Create Account</h2>
+      <p class="login-subtitle">Sign up to start shopping with GroceryHub</p>
+
+      <input style="width:300px;margin-left:5px" type="text" id="signupName" placeholder="Full Name" class="otp-input"
+        autocomplete="off">
+      <input type="email" id="signupEmail" placeholder="Email Address" class="otp-input" autocomplete="off">
+      <input style="width:300px;margin-left:5px" type="text" id="signupPhone" placeholder="Phone Number"
+        class="otp-input" maxlength="10" autocomplete="off">
+      <input type="password" id="signupPassword" placeholder="Password" class="otp-input" autocomplete="new-password">
+
+      <button class="continue-btn login-btn" onclick="handleSignup()">Sign Up</button>
+      <p style="margin-top: 15px; text-align: center;">
+        Already have an account?
+        <a href="#" onclick="toggleModals('signupModal', 'loginModal'); return false;">Login</a>
+      </p>
+      <p class="terms-text">By registering, you agree to our Terms & Privacy Policy.</p>
+    </div>
+  </div>
+
+
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal login-modal">
+      <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
+
+      <img src="images/Screenshot_2025-03-29_160452-removebg-preview 1.png" alt="Groceries" class="login-img">
+
+      <h2 class="login-title">Login</h2>
+      <p class="login-subtitle">Enter Your Phone Number to proceed</p>
+
+      <div class="phone-input full-width">
+        📞 <input type="text" id="phoneInput" maxlength="10" placeholder="Enter 10 digit phone number">
+      </div>
+
+      <div id="otpSection" style="display: none; margin-top: 15px;">
+        <p class="login-subtitle">Enter OTP sent to your phone</p>
+        <input type="text" id="otpInput" maxlength="6" placeholder="Enter 6-digit OTP" class="otp-input">
+      </div>
+
+      <button class="continue-btn login-btn" onclick="handleContinue()">Continue</button>
+      <p style="margin-top: 15px; text-align: center;">
+        New user?
+        <a href="#" onclick="toggleModals('loginModal', 'signupModal'); return false;">Sign Up</a>
+      </p>
+
+      <p class="terms-text">By clicking, I accept Terms & Condition.</p>
+    </div>
+  </div>
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <div class="logo-heading">
+          <img src="images/Ellipse 1.png" alt="Logo">
+          <h2>GroceryHub</h2>
+        </div>
+        <p>GroceryHub brings its customers low prices every day. We offer a wide choice covering fresh & packaged food,
+          grains, pulses, dairy, frozen, plastics, utensils, crockery, travel, stationery, & more. SPAR has 13,900
+          stores in 48 countries. In India, SPAR has 23 stores across 8 cities.</p>
+        <p class="email"><img src="images/Mail.png" alt=""> business@groceryhub.com</p>
+        <p class="web"><img src="images/Internet.png" alt=""> www.Grocery.in</p>
+      </div>
+
+      <div class="footer-columns">
+        <div>
+          <h4>Our Services</h4>
+          <ul>
+            <li>Your Account</li>
+            <li>FAQS</li>
+            <li>Store List</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Let Us Help You</h4>
+          <ul>
+            <li>Help & Support</li>
+            <li>Share Feedback</li>
+            <li>Call Us</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li>About Us</li>
+            <li>Terms</li>
+            <li>Privacy Policy</li>
+            <li>Return & Refund Policy</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-social">
+        <h4>Connect With Us</h4>
+        <div class="social-icons">
+          <img src="images/Item.png" alt="Facebook">
+          <img src="images/x.png" alt="X">
+          <img src="images/Item P.png" alt="Instagram">
+          <img src="images/Item 9.png" alt="LinkedIn">
+        </div>
+        <div class="store-icons">
+          <img src="images/Link → app-store-image.png" alt="App Store">
+          <img src="images/Link → paly-store-image.png" alt="Play Store">
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      GroceryHub India © All rights Reserved
+    </div>
+  </footer>
+  <script>
+    function updateCartCount() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cart-count').textContent = totalQty;
+    }
+    // Handle "+" button click
+    function setupAddButtons() {
+      const addButtons = document.querySelectorAll('.add-button');
+
+      addButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault(); // Prevent navigating to product page when clicking the button inside <a>
+
+          let currentCount = parseInt(sessionStorage.getItem('cartCount')) || 0;
+          currentCount += 1;
+
+          sessionStorage.setItem('cartCount', currentCount);
+          updateCartCount();
+        });
+      });
+    }
+
+    // On page load
+    window.addEventListener('load', () => {
+      updateCartCount();
+      setupAddButtons();
+    });
+
+    window.addEventListener('load', updateCartCount);
+  </script>
+  <script src="script.js"></script>
+  <script>
+    let generatedOTP = "";
+
+    function openModal(id) {
+      document.getElementById(id).style.display = "flex";
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = "none";
+      document.getElementById("phoneInput").value = "";
+      document.getElementById("otpInput").value = "";
+      document.getElementById("otpSection").style.display = "none";
+      document.querySelector('.login-btn').textContent = "Continue";
+      generatedOTP = "";
+      document.getElementById(id).style.display = "none";
+
+      // Clear sign-up inputs
+      if (id === "signupModal") {
+        document.getElementById("signupName").value = "";
+        document.getElementById("signupEmail").value = "";
+        document.getElementById("signupPhone").value = "";
+        document.getElementById("signupPassword").value = "";
+      }
+    }
+
+    function handleContinue() {
+      const phone = document.getElementById("phoneInput").value.trim();
+      const otpSection = document.getElementById("otpSection");
+      const continueBtn = document.querySelector('.login-btn');
+
+      if (continueBtn.textContent === "Continue") {
+        if (phone.length !== 10 || isNaN(phone)) {
+          alert("Please enter a valid 10-digit phone number.");
+          return;
+        }
+
+        // Generate fake OTP
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+        alert("Your OTP is: " + generatedOTP); // Mocking SMS
+
+        otpSection.style.display = "block";
+        continueBtn.textContent = "Verify OTP";
+      } else {
+        // Verify OTP
+        const enteredOTP = document.getElementById("otpInput").value.trim();
+
+        if (enteredOTP === generatedOTP) {
+          alert("OTP Verified! You are logged in.");
+          closeModal("loginModal");
+        } else {
+          alert("Invalid OTP. Please try again.");
+        }
+      }
+    }
+
+
+  </script>
+  <!-- JavaScript -->
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  </script>
+</body>
+
+</html>

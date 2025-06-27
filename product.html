@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<style>
+  #back-button {
+    background-color: #8BC34A;
+    color: white;
+    border: none;
+    /* padding: 8px 15px;*/
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    /*margin-bottom: 20px;*/
+    display: inline;
+  }
+
+
+  #back-button:hover {
+    background-color: #7CA635;
+  }
+</style>
+
+<body>
+
+  <div class="container">
+
+    <button id="back-button">← Back to Home</button>
+
+
+    <div class="product-info" id="product-info">
+      <!-- Product info loaded dynamically here -->
+    </div>
+
+    <div class="product-image-section" id="product-image-section">
+      <!-- Product image and purchase info loaded dynamically here -->
+    </div>
+  </div>
+
+
+
+  <script>
+    // Product data as JS objects
+    const products = {
+      premiumChicken: {
+        title: "Premium Chicken Whole Skinless",
+        description:
+          "Indulge in the tender and juicy taste of our Premium Chicken Whole Skinless. Our chicken is sourced from trusted farms and processed with utmost care to ensure a delicious and healthy eating experience. With no added hormones or antibiotics, our chicken is perfect for grilling, roasting, or cooking your favorite chicken recipes.",
+        keyFeatures: [
+          "Tender and juicy: Our chicken is carefully selected and processed to ensure maximum tenderness and juiciness.",
+          "No added hormones or antibiotics: Our chicken is raised without any added hormones or antibiotics, ensuring a healthier eating experience.",
+          "Skinless: Our chicken is skinless, making it a great option for those looking for a leaner protein source.",
+          "Perfect for grilling, roasting, or cooking: Our chicken is versatile and can be cooked in a variety of ways to suit your taste preferences."
+        ],
+        productDetails: [
+          "Weight: 1.5 kg – 2 kg",
+          "Packaging: Vacuum–packed to ensure freshness",
+          "Shelf Life: 2–3 days from delivery date",
+          "Storage Instructions: Store in refrigerator at 0–4°C"
+        ],
+        imageSrc: "images/Premium Chicken Whole Skinless 1.png",
+        altText: "Chicken Boneless Breast",
+        productNameLine: "Chicken Boneless Breast Fillet 250 GM",
+        price: "₹107.25",
+        qualityNo: "1",
+        stockCount: "13"
+      },
+      goatCurry: {
+        title: "Goat Curry",
+        description:
+          "Indulge in the rich flavors of our Goat Curry, made with tender goat meat cooked in a blend of aromatic spices. Our curry is a perfect blend of traditional Indian flavors and modern convenience.",
+        keyFeatures: [
+          "Made with tender goat meat",
+          "Blended with aromatic spices",
+          "Traditional Indian flavors with modern convenience",
+          "Ready–to–eat, just heat and serve"
+        ],
+        productDetails: [
+          "Weight: 250gm, 500gm, 1kg",
+          "Packaging: Retort packaging for long shelf life",
+          "Shelf Life: 12 months from manufacturing date",
+          "Storage Instructions: Store in a cool, dry place",
+          "Heating Instructions: Heat in microwave or on stovetop"
+        ],
+        imageSrc: "images/Goat Currycut.png",
+        altText: "Goat Currycut",
+        productNameLine: "Goat Currycut 250 GM",
+        price: "₹212.25",
+        qualityNo: "1",
+        stockCount: "13"
+      },
+      freshMilk: {
+        title: "Fresh Milk",
+        description:
+          "Get the goodness of fresh milk delivered right to your doorstep! Our milk is sourced from local dairy farms and is rich in nutrients like calcium, protein, and vitamins. Perfect for cereal, cooking, or just a refreshing glass.",
+        keyFeatures: [
+          "Fresh and pure: Our milk is sourced from local dairy farms and is free from any additives or preservatives.",
+          "Rich in nutrients: Our milk is a good source of calcium, protein, and vitamins.",
+          "Perfect for various uses: Use our milk for cereal, cooking, baking, or just enjoy a refreshing glass."
+        ],
+        productDetails: [
+          "Type: Whole milk, Low–fat milk, Skim milk",
+          "Packaging: 1 liter, 500ml, 250ml",
+          "Shelf Life: 2–3 days from delivery date",
+          "Storage Instructions: Store in refrigerator at 0–4°C"
+        ],
+        imageSrc: "imagesbg/Nandini_Goodlife_Milk_500GM-removebg-preview.png",
+        altText: "Nandini Goodlife Milk",
+        productNameLine: "Nandini Goodlife Milk 500GM",
+        price: "₹29",
+        qualityNo: "1",
+        stockCount: "13"
+      },
+
+      milkyMistPaneer: {
+        title: "Milky Mist Paneer",
+        description:
+          "Indulge in the creamy goodness of Milky Mist Paneer, made from 100% pure milk. Our paneer is rich in protein, calcium, and vitamins, making it a nutritious addition to your favorite recipes.",
+        keyFeatures: [
+          "Made from 100% pure milk",
+          "High–quality protein source",
+          "Rich in calcium and vitamins",
+          "Versatile and easy to use in various recipes",
+        ],
+        productDetails: [
+          "Type: Full Cream Paneer, Low–Fat Paneer",
+          "Weight: 200gm, 400gm, 1kg",
+          "Packaging: Vacuum–packed to ensure freshness",
+          "Shelf Life: 5–7 days from manufacturing date",
+          "Storage Instructions: Store in refrigerator at 0–4°C",
+        ],
+        imageSrc: "imagesbg/Milky_Mist_Paneer-P-removebg-preview.png",
+        altText: "Milky Mist Paneer",
+        productNameLine: "Milky Mist Paneer 200 GM",
+        price: "₹128",
+        qualityNo: "1",
+        stockCount: "13",
+      },
+      sparUradDal: {
+        title: "Premium Dal",
+        description:
+          "Experience the authentic taste of India with our Premium Dal, carefully sourced from top suppliers to ensure maximum quality and flavor. Our dal is rich in protein, fiber, and nutrients, making it a nutritious addition to your meals.",
+        keyFeatures: [
+          "High-quality protein source",
+          "Rich in fiber and nutrients",
+          "Carefully sourced from top suppliers",
+          "Authentic Indian taste and flavor"
+        ],
+        productVariants: [
+          "Toor Dal: Yellow split pigeon peas",
+          "Moong Dal: Green gram split beans",
+          "Chana Dal: Split chickpeas",
+          "Masoor Dal: Red lentils"
+        ],
+        productDetails: [
+          "Weight: 500gm, 1kg, 2kg, 5kg",
+          "Packaging: Food-grade packaging to ensure freshness"
+        ],
+        imageSrc: "imagesbg/SPAR_Select_Urad_Dal_500G-removebg-preview.png",
+        altText: "SPAR Select Urad Dal 500G",
+        productNameLine: "SPAR Select Urad Dal 500G",
+        price: "₹110",
+        qualityNo: "1",
+        stockCount: "13"
+      },
+
+      bhagyalakshmiFriedGram: {
+        title: "Bhagyalakshmi Fried Gram",
+        description:
+          "Experience the authentic taste of India with our Premium Dal, carefully sourced from top suppliers to ensure maximum quality and flavor. Our dal is rich in protein, fiber, and nutrients, making it a nutritious addition to your meals.",
+        keyFeatures: [
+          "High–quality protein source",
+          "Rich in fiber and nutrients",
+          "Carefully sourced from top suppliers",
+          "Authentic Indian taste and flavor"
+        ],
+        productVariants: [
+          "Toor Dal: Yellow split pigeon peas",
+          "Moong Dal: Green gram split beans",
+          "Chana Dal: Split chickpeas",
+          "Masoor Dal: Red lentils"
+        ],
+        productDetails: [
+          "Weight: 500gm, 1kg, 2kg, 5kg",
+          "Packaging: Food–grade packaging to ensure freshness"
+        ],
+        imageSrc: "imagesbg/Bhagyalakshmi_Fried_Gram-P-removebg-preview.png",
+        altText: "Fried Gram Dal",
+        productNameLine: "Bhagyalakshmi Fried Gram 250 GM",
+        price: "₹40",
+        qualityNo: "1",
+        stockCount: "13"
+      },
+
+      popularMoongDal: {
+        title: "Popular Moong Dal",
+        description:
+          "Experience the authentic taste of India with our Premium Dal, carefully sourced from top suppliers to ensure maximum quality and flavor. Our dal is rich in protein, fiber, and nutrients, making it a nutritious addition to your meals.",
+        keyFeatures: [
+          "High–quality protein source",
+          "Rich in fiber and nutrients",
+          "Carefully sourced from top suppliers",
+          "Authentic Indian taste and flavor",
+        ],
+        productDetails: [
+          "Weight: 500gm, 1kg, 2kg, 5kg",
+          "Packaging: Food–grade packaging to ensure freshness",
+        ],
+        productVariants: [
+          "Toor Dal: Yellow split pigeon peas",
+          "Moong Dal: Green gram split beans",
+          "Chana Dal: Split chickpeas",
+          "Masoor Dal: Red lentils",
+        ],
+        imageSrc: "images/Screenshot_2025-03-31_150052-removebg-preview 1.png",
+        altText: "Moong Dal",
+        productNameLine: "Popular Moong Dal 1KG",
+        price: "₹159",
+        qualityNo: "1",
+        stockCount: "13",
+      },
+
+      royalGalaApple: {
+        title: "Royal Gala Apples",
+        description:
+          "Indulge in the sweet and crunchy goodness of our Royal Gala Apples, carefully hand–picked from select orchards to ensure maximum flavor and freshness.",
+        keyFeatures: [
+          "Sweet and crunchy texture",
+          "Juicy and flavorful",
+          "Carefully hand–picked from select orchards",
+          "Perfect snack for any time of day",
+        ],
+        productDetails: [
+          "Weight: 500gm, 1kg, 2kg, 5kg",
+          "Packaging: Food–grade packaging to ensure freshness",
+          "Shelf Life: 7–10 days from delivery date",
+          "Storage Instructions: Store in refrigerator at 0–4°C",
+        ],
+        imageSrc: "imagesbg/Apple_Royalgala-removebg-preview.png",
+        altText: "Royal Gala Apple",
+        productNameLine: "Apple Royalgala 500 GM",
+        price: "₹124.5",
+        qualityNo: "1",
+        stockCount: "13"
+      },
+      appleShimla: {
+        title: "Apple Shimla",
+        description:
+          "Indulge in the sweet and crunchy goodness of our Royal Gala Apples, carefully hand–picked from select orchards to ensure maximum flavor and freshness.",
+        keyFeatures: [
+          "Sweet and crunchy texture",
+          "Juicy and flavorful",
+          "Carefully hand–picked from select orchards",
+          "Perfect snack for any time of day"
+        ],
+        productDetails: [
+          "Weight: 500gm, 1kg, 2kg, 5kg",
+          "Packaging: Food–grade packaging to ensure freshness",
+          "Shelf Life: 7–10 days from delivery date",
+          "Storage Instructions: Store in refrigerator at 0–4°C"
+        ],
+        imageSrc: "imagesbg/Apple_Shimla-removebg-preview.png",
+        altText: "Apple Shimla",
+        productNameLine: "Apple Shimla 500 GM",
+        price: "₹114.5",
+        qualityNo: "1",
+        stockCount: "13"
+      },
+      bananaRobusta: {
+        title: "Robusta Bananas",
+        description:
+          "Enjoy the delicious taste and numerous health benefits of our Robusta Bananas, carefully hand–picked from select plantations to ensure maximum freshness and quality.",
+        keyFeatures: [
+          "Sweet and creamy taste",
+          "High in potassium, vitamins, and minerals",
+          "Carefully hand–picked from select plantations",
+          "Perfect snack for any time of day"
+        ],
+        productDetails: [
+          "Weight: 500gm, 1kg, 2kg, 5kg",
+          "Packaging: Food–grade packaging to ensure freshness",
+          "Shelf Life: 3–5 days from delivery date",
+          "Storage Instructions: Store at room temperature or in refrigerator"
+        ],
+        imageSrc: "imagesbg/Banana_Robusta-removebg-preview.png",
+        altText: "Banana Robusta",
+        productNameLine: "Banana Robusta 500 GM",
+        price: "₹27.5",
+        qualityNo: "1",
+        stockCount: "13"
+      }
+
+    };
+
+    // Get product parameter from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productKey = urlParams.get("product") || "popularMoongDal"; // default product
+
+    const product = products[productKey];
+
+    if (!product) {
+      document.body.innerHTML = "<h1>Product not found</h1>";
+      throw new Error("Product not found");
+    }
+
+    // Build product info HTML
+    const productInfoDiv = document.getElementById("product-info");
+    let keyFeaturesHTML = product.keyFeatures
+      .map((feature) => `<li>${feature}</li>`)
+      .join("");
+    let productDetailsHTML = product.productDetails
+      .map((detail) => `<li>${detail}</li>`)
+      .join("");
+
+    // If productVariants exists, add that section too (only for moong dal)
+    let productVariantsHTML = "";
+    if (product.productVariants) {
+      productVariantsHTML =
+        `<h3>Product Variants</h3><ul>` +
+        product.productVariants.map((v) => `<li>${v}</li>`).join("") +
+        `</ul>`;
+    }
+
+    productInfoDiv.innerHTML = `
+      <h1>${product.title}</h1>
+      <h3>Product Description</h3>
+      <p>${product.description}</p>
+
+      <h3>Key Features</h3>
+      <ul>${keyFeaturesHTML}</ul>
+
+      ${productVariantsHTML}
+
+      <h3>Product Details</h3>
+      <ul>${productDetailsHTML}</ul>
+    `;
+
+    // Build product image section HTML
+    const productImageSectionDiv = document.getElementById("product-image-section");
+    productImageSectionDiv.innerHTML = `
+      <img id="product-image" src="${product.imageSrc}" alt="${product.altText}" />
+      <h2 id="product-name">${product.productNameLine}</h2>
+      <p class="price" id="product-price">${product.price}</p>
+      <div class="stock-info">
+        <p><strong>Quality No :</strong> ${product.qualityNo}</p>
+        <p><span class="heart">❤️</span> <strong>In Stock :</strong> ${product.stockCount}</p>
+      </div>
+      <div class="buttons">
+        <button class="add" onclick="addToCart()">Add to cart</button>
+        <button class="buy" onclick="buyNow()">Buy Now</button>
+      </div>
+    `;
+
+
+
+    function buyNow() {
+      const numericPrice = parseFloat(product.price.replace(/[₹,]/g, "").trim());
+      const securedProduct = {
+        ...product,
+        quantity: 1,
+        totalPrice: "₹" + numericPrice.toFixed(2)
+      };
+
+      localStorage.setItem(
+        "securedCheckoutProduct",
+        JSON.stringify([securedProduct])
+      );
+
+      window.location.href = "Home.html?secureCheckout=true";
+    }
+
+    window.buyNow = buyNow;
+  </script>
+
+
+
+
+  <script>
+
+    window.addToCart = function () {
+      // Get the existing cart or initialize
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      // Build the current product data
+      const currentProduct = {
+        key: productKey,
+        name: product.productNameLine,
+        price: parseFloat(product.price.replace('₹', '')),
+        img: product.imageSrc,
+        quantity: 1
+      };
+
+      // Check if product already exists
+      const existingIndex = cart.findIndex(item => item.name === currentProduct.name);
+
+      if (existingIndex !== -1) {
+        cart[existingIndex].quantity += 1;
+      } else {
+        cart.push(currentProduct);
+      }
+
+      // Save updated cart
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // Optional: update session cartCount for top-right badge
+      let count = parseInt(sessionStorage.getItem('cartCount')) || 0;
+      sessionStorage.setItem('cartCount', count + 1);
+
+      alert(`${currentProduct.name} added to cart!`);
+    };
+
+
+
+  </script>
+
+  <script>
+    document.getElementById('back-button').addEventListener('click', () => {
+      window.location.href = 'Home.html'; // Change this if your home page filename is different
+    });
+  </script>
+  <!-- <script src="script.js"></script> -->
+</body>
+
+</html>
