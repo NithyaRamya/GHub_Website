@@ -219,3 +219,11 @@ function attachPopupEventListeners() {
 // On page load
 updateCartCount();
 
+function prepareSecuredProduct(product, quantity) {
+  const numericPrice = parseFloat(product.price.replace(/[₹,]/g, "").trim());
+  return {
+    ...product,
+    quantity,
+    totalPrice: "₹" + (numericPrice * quantity).toFixed(2)
+  };
+}

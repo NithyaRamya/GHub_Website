@@ -1,0 +1,76 @@
+<!-- success.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Success</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #e4f7c9;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    
+
+    h1 {
+      font-size: 28px;
+      font-weight: bold;
+      color: #000;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .track-btn {
+      background: #8BC34A;
+      color: #fff;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="checkmark-circle">
+    <img src="images/Group 51.png">
+  </div>
+  <h1>“We’ve Got Your Order!”</h1>
+  <button class="track-btn" id="track-order-btn">Track Your order Now</button>
+
+  <script>
+window.addEventListener("DOMContentLoaded", () => {
+  const productStr = localStorage.getItem("securedCheckoutProduct");
+  if (!productStr) return;
+
+  let products = JSON.parse(productStr);
+  if (!Array.isArray(products)) {
+    products = [products];
+  }
+
+  const orderSummary = products.map(p => ({
+    ...p,
+    orderDate: new Date().toLocaleDateString(),
+  }));
+
+  localStorage.setItem("orderSummary", JSON.stringify(orderSummary));
+});
+
+const btn = document.getElementById("track-order-btn");
+if (btn) {
+  btn.addEventListener("click", () => {
+    window.location.href = "Home.html?trackOrder=true";
+  });
+}
+</script>
+</body>
+</html>

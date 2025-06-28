@@ -392,6 +392,7 @@
     <img src="images/Link → welcome-image.png" alt="ONE STOP SHOP">
   </section>
   <div id="secured-checkup" style="display: none;"></div>
+  <div id="order-track-page" style="display:none;"></div>
   <section class="section categories">
     <div class="section-header">
       <h2>Grocery & Kitchen</h2>
@@ -969,8 +970,8 @@
 
     <!-- window.addEventListener('load', updateCartCount); -->
   </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
+  <!-- <script>
+    <!-- document.addEventListener("DOMContentLoaded", () => {
       const cartBuyNowBtn = document.querySelector(".buy-btn");
 
       if (cartBuyNowBtn) {
@@ -996,11 +997,11 @@
           }).filter(p => p !== null);
 
           localStorage.setItem("securedCheckoutProduct", JSON.stringify(securedProducts));
-          window.location.href = "index.html?secureCheckout=true";
+          window.location.href = "Home.html?secureCheckout=true";
         });
       }
     });
-  </script>
+  </script> --> -->
 
   <script src="script.js"></script>
 
@@ -1064,11 +1065,18 @@
 
   </script>
   <script>
-    window.addEventListener("DOMContentLoaded", () => {
+     window.addEventListener("DOMContentLoaded", () => {
       const params = new URLSearchParams(window.location.search);
       if (params.get("secureCheckout") === "true") {
-        showSecuredCheckupPage();
-      }
+    showSecuredCheckupPage();
+      }else if (params.get("trackOrder") === "true") {
+    console.log("Showing track order page.");
+    showTrackOrderPage();
+  } else {
+    console.log("Loading homepage normally.");
+    updateCartCount();
+    setupAddButtons();
+  }
     });
 
     function showSecuredCheckupPage() {
@@ -1225,11 +1233,90 @@
   } else {
     alert("Please choose Credit Card to proceed.");
   }
-});
+});}}
+function showTrackOrderPage() {
+  console.log("showTrackOrderPage running!");
 
-      }
-    }
+  // Hide homepage
+  document.querySelectorAll("section, .some-homepage-class").forEach(el => {
+    el.style.display = "none";
+  });
+
+  const container = document.getElementById("order-track-page");
+  container.style.display = "block";
+
+  let html = `
+    <div class="product-container" style="display: flex; gap: 30px; flex-wrap: wrap; margin-top: 40px; background: #fff; padding: 20px; border-radius: 10px;">
+      <img id="product-image" src="" alt="Product Image" style="max-width: 300px; border-radius: 10px;" />
+      <div>
+        <h2 id="product-name" style="color:#4a7d20; margin-bottom:10px;"></h2>
+        <p><strong>Order Placed....!</strong> ❤️</p>
+        <p id="product-description"></p>
+        <p id="product-details"></p>
+        <p id="quantity"></p>
+        <p><strong>Delivery by Tue 28 June</strong></p>
+      </div>
+    </div>
+
+    <div class="timeline" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 50px;">
+      <div class="step active" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="step-circle" style="width: 20px; height: 20px; border-radius: 50%; background: #4a7d20; margin-bottom: 5px;"></div>
+        <div>Ordered<br />15 June</div>
+      </div>
+      <div class="line" style="width: 50px; height: 2px; background: #4a7d20;"></div>
+      <div class="step active" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="step-circle" style="width: 20px; height: 20px; border-radius: 50%; background: #4a7d20; margin-bottom: 5px;"></div>
+        <div>Shipped<br />18 June</div>
+      </div>
+      <div class="line" style="width: 50px; height: 2px; background: #4a7d20;"></div>
+      <div class="step" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="step-circle" style="width: 20px; height: 20px; border-radius: 50%; background: #ccc; margin-bottom: 5px;"></div>
+        <div>Out of Delivery<br />27 June</div>
+      </div>
+      <div class="line" style="width: 50px; height: 2px; background: #ccc;"></div>
+      <div class="step" style="display: flex; flex-direction: column; align-items: center;">
+        <div class="step-circle" style="width: 20px; height: 20px; border-radius: 50%; background: #ccc; margin-bottom: 5px;"></div>
+        <div>Delivery<br />28 June</div>
+      </div>
+    </div>
+
+    <div class="explore-section" style="margin-top: 60px; text-align: center;">
+      <h2 style="color: #4a7d20; margin-bottom: 20px;">Explore More</h2>
+      <div class="explore-products" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+        <img src="images/Biscuits & Cookies.png" alt="Biscuits" style="width: 150px; border-radius: 10px;" />
+        <img src="images/Dry Fruits I.png" alt="Dry Fruits" style="width: 150px; border-radius: 10px;" />
+        <img src="images/Drinks & Juices J.png" alt="Drinks" style="width: 150px; border-radius: 10px;" />
+        <img src="images/Pasta & Noodles J.png" alt="Pasta" style="width: 150px; border-radius: 10px;" />
+       <a href="categories.html" class="see-more"
+         style="
+          color:black;
+          text-decoration:none;
+          font-weight:bold;
+        ">See More</a>
+      </div>
+      
+    </div>
+  `;
+
+  container.innerHTML = html;
+
+  // AFTER HTML is inserted → fill data
+  const orderSummary = JSON.parse(localStorage.getItem("orderSummary")) || [];
+  if (orderSummary.length > 0) {
+    const p = orderSummary[0];
+    document.getElementById("product-name").textContent = p.productNameLine;
+    document.getElementById("product-description").textContent = p.description || "";
+    document.getElementById("product-details").textContent = `Price: ${p.totalPrice}`;
+    document.getElementById("quantity").textContent = `Quantity No : ${p.quantity}`;
+    document.getElementById("product-image").src = p.imageSrc;
+  } else {
+    container.innerHTML = `<p style="text-align:center; margin-top:50px;">No order found.</p>`;
+  }
+}
+
+
   </script>
+  
 </body>
 
 </html>
